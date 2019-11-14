@@ -5,11 +5,9 @@ import com.smeup.rpgparser.execution.getProgram
 import com.smeup.rpgparser.jvminterop.JavaSystemInterface
 import com.smeup.rpgparser.utils.StringOutputStream
 import io.javalin.Javalin
-import io.javalin.apibuilder.ApiBuilder.get
-import io.javalin.apibuilder.ApiBuilder.path
 import io.javalin.http.Context
-import io.javalin.http.Handler
 import java.io.PrintStream
+import java.lang.Exception
 
 fun main(args: Array<String>) {
     Javalin.create { config ->
@@ -18,6 +16,10 @@ fun main(args: Array<String>) {
     }
         .get("/", helloWorld)
         .get("/run/:pgmName", rpgHandler)
+        .exception(Exception::class.java) {e, ctx ->
+            ctx.status(500)
+            ctx.jsonResponse(e.toString())
+        }
         .start(7000)
 }
 
@@ -26,11 +28,8 @@ val helloWorld = fun(ctx: Context) {
 }
 
 val rpgHandler = fun(ctx: Context) {
-    ctx.jsonResponse(rpgExecution(ctx.pathParam("pgmName"), extractNumberedParametersFrom(ctx)))
+    ctx.jsonResponse(rpgExecution(ctx.pathParam("pgmName"), ctx.extractNumberedParameters()))
 }
-
-fun extractNumberedParametersFrom(ctx: Context): List<String> =
-    (1..9).mapNotNull { ctx.queryParam("p$it") }
 
 private fun rpgExecution(pgmName: String, parms: List<String>): List<String> {
     val logOutputStream = StringOutputStream()
@@ -39,6 +38,9 @@ private fun rpgExecution(pgmName: String, parms: List<String>): List<String> {
     pgm.singleCall(parms)
     return logOutputStream.toString().lines().dropLast(1)
 }
+
+fun Context.extractNumberedParameters(): List<String> =
+    (1..9).mapNotNull { this.queryParam("p$it") }
 
 fun Context.jsonResponse(obj: Any) {
     val gSon = GsonBuilder().setPrettyPrinting().create()
