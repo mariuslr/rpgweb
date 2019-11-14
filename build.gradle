@@ -29,3 +29,12 @@ compileKotlin {
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
+
+//gradlew run -Pargs="example_arg1,example_arg2...."
+task run (type: JavaExec) {
+    if (project.hasProperty('programArgs')){
+        args(project.getProperties().get("programArgs").split(','))
+    }
+    main="com.smeup.rpgweb.AppKt"
+    classpath = sourceSets.test.runtimeClasspath
+}
