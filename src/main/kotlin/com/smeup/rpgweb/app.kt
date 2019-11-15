@@ -3,7 +3,9 @@ package com.smeup.rpgweb
 import com.google.gson.GsonBuilder
 import com.smeup.rpgparser.execution.getProgram
 import com.smeup.rpgparser.jvminterop.JavaSystemInterface
+import com.smeup.rpgparser.rgpinterop.RpgSystem
 import com.smeup.rpgparser.utils.StringOutputStream
+import com.smeup.rpgweb.db.dbsqlInterface
 import io.javalin.Javalin
 import io.javalin.http.Context
 import java.io.PrintStream
@@ -37,7 +39,7 @@ val employeesByDept = fun(ctx: Context) {
 
 private fun rpgExecution(pgmName: String, parms: List<String>): List<String> {
     val logOutputStream = StringOutputStream()
-    val javaSystemInterface = JavaSystemInterface(PrintStream(logOutputStream))
+    val javaSystemInterface = JavaSystemInterface(PrintStream(logOutputStream), RpgSystem::getProgram, databaseInterface = dbsqlInterface())
     val pgm = getProgram("srcRPG/$pgmName", javaSystemInterface)
     pgm.singleCall(parms)
     return logOutputStream.toString().lines().dropLast(1)

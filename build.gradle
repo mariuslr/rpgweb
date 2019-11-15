@@ -46,6 +46,12 @@ task createDB (type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
 }
 
+task startDBEngine (type: JavaExec) {
+    main="org.hsqldb.Server"
+    args("-database.0", "file:testDB/testDB", "-dbname.0", "testDB")
+    classpath = sourceSets.test.runtimeClasspath
+}
+
 task fatJar(type: Jar) {
     manifest {
         attributes 'Main-Class': 'com.smeup.rpgweb.AppKt'

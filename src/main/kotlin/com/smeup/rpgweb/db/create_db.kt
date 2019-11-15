@@ -2,19 +2,26 @@
 
 package com.smeup.rpgweb.db
 
+import com.smeup.rpgparser.db.sql.CONVENTIONAL_INDEX_SUFFIX
 import com.smeup.rpgparser.db.sql.DBConfiguration
 import com.smeup.rpgparser.db.sql.DBSQLInterface
 
 fun main() {
     println("Setup of the testDB/testDB...")
-    val initialSQL = listOf(createEMPLOYEE(), setTableTextType(), createXEMP2(), insertRecords())
+    val initialSQL =
+        listOf(
+            createEMPLOYEE(),
+            createXEMP2(),
+            createXEMP2Index(),
+            setTableTextType(),
+            insertRecords())
     val dbInterface = dbsqlInterface()
     dbInterface.execute(initialSQL)
     println("...done!")
 }
 
 fun dbsqlInterface(): DBSQLInterface {
-    val dbInterface = DBSQLInterface(DBConfiguration("jdbc:hsqldb:file:testDB/testDB", "SA"))
+    val dbInterface = DBSQLInterface(DBConfiguration("jdbc:hsqldb:hsql://localhost/testDB", "SA"))
     dbInterface.setSQLLog(true)
     return dbInterface
 }
@@ -36,6 +43,8 @@ private fun setTableTextType() =
     """.trimIndent()
 
 private fun createXEMP2() = "CREATE VIEW XEMP2 AS SELECT * FROM EMPLOYEE ORDER BY WORKDEPT"
+
+private fun createXEMP2Index() = "CREATE INDEX XEMP2$CONVENTIONAL_INDEX_SUFFIX ON EMPLOYEE (WORKDEPT ASC)"
 
 private fun insertRecords() =
     """
