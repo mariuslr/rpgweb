@@ -8,7 +8,7 @@ import io.javalin.Javalin
 import io.javalin.http.Context
 import java.io.PrintStream
 
-fun main(args: Array<String>) {
+fun main() {
     Javalin.create { config ->
         config.defaultContentType = "application/json"
         config.enableCorsForAllOrigins()
