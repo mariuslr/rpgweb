@@ -12,31 +12,28 @@
      C     *entry        plist
      C                   parm                    toFind
       *-------------------------------------------------------------------------
-     C                   eval      msg = '##COLUMNS'
-     C     msg           dsply
-      *-------------------------------------------------------------------------
-     C                   eval      msg = '#FIRSTNME'
+     C                   eval      msg = 'FIRSTNME'
      C     msg           dsply
       *-------------------------------------------------------------------------
      C                   eval      msg = 'First name'
      C     msg           dsply
       *-------------------------------------------------------------------------
-     C                   eval      msg = '#LASTNAME'
+     C                   eval      msg = 'LASTNAME'
      C     msg           dsply
       *-------------------------------------------------------------------------
      C                   eval      msg = 'Last name'
      C     msg           dsply
       *-------------------------------------------------------------------------
-     C                   eval      msg = '##ROWS'
+     C                   eval      msg = '_##_ROWS'
      C     msg           dsply
       *-------------------------------------------------------------------------
      C     toFind        ReadE     XEMP2
      C                   dow       not %eof
-     C                   eval      msg = %trim(FIRSTNME)
+     C                   eval      msg = 'FIRSTNME_##_' + %trim(FIRSTNME)
      C     msg           dsply
-     C                   eval      msg = %trim(LASTNAME)
+ C                   eval      msg = 'LASTNAME_##_' +%trim(LASTNAME)
      C     msg           dsply
-     C                   eval      msg = '###'
+     C                   eval      msg = '_##_ENDROW'
      C     msg           dsply
      C                   ReadE     XEMP2
      C                   enddo

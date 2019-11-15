@@ -7,7 +7,6 @@ import com.smeup.rpgparser.utils.StringOutputStream
 import io.javalin.Javalin
 import io.javalin.http.Context
 import java.io.PrintStream
-import java.lang.Exception
 
 fun main(args: Array<String>) {
     Javalin.create { config ->
@@ -16,7 +15,8 @@ fun main(args: Array<String>) {
     }
         .get("/", helloWorld)
         .get("/run/:pgmName", rpgHandler)
-        .exception(Exception::class.java) {e, ctx ->
+        .get("/employees/dept/:deptCode", employeesByDept)
+        .exception(Exception::class.java) { e, ctx ->
             ctx.status(500)
             ctx.jsonResponse(e.toString())
         }
@@ -29,6 +29,10 @@ val helloWorld = fun(ctx: Context) {
 
 val rpgHandler = fun(ctx: Context) {
     ctx.jsonResponse(rpgExecution(ctx.pathParam("pgmName"), ctx.extractNumberedParameters()))
+}
+
+val employeesByDept = fun(ctx: Context) {
+    ctx.jsonResponse(JSonTable(rpgExecution("EMPBYDEPT", listOf(ctx.pathParam("deptCode")))))
 }
 
 private fun rpgExecution(pgmName: String, parms: List<String>): List<String> {
