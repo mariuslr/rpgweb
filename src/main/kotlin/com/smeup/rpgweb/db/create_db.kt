@@ -2,23 +2,26 @@
 
 package com.smeup.rpgweb.db
 
-import com.smeup.rpgparser.db.sql.CONVENTIONAL_INDEX_SUFFIX
 import com.smeup.rpgparser.db.sql.DBConfiguration
 import com.smeup.rpgparser.db.sql.DBSQLInterface
-import java.sql.DriverManager
 
 fun main() {
     println("Setup of the testDB/testDB...")
-    val initialSQL = listOf(createEMPLOYEE(), createXEMP2(), createXEMP2Index(), insertRecords())
-    val dbInterface = DBSQLInterface(DBConfiguration("jdbc:hsqldb:file:testDB/testDB", "SA"))
-    dbInterface.setSQLLog(true)
+    val initialSQL = listOf(createEMPLOYEE(), setTableTextType(), createXEMP2(), insertRecords())
+    val dbInterface = dbsqlInterface()
     dbInterface.execute(initialSQL)
     println("...done!")
 }
 
+fun dbsqlInterface(): DBSQLInterface {
+    val dbInterface = DBSQLInterface(DBConfiguration("jdbc:hsqldb:file:testDB/testDB", "SA"))
+    dbInterface.setSQLLog(true)
+    return dbInterface
+}
+
 private fun createEMPLOYEE() =
     """
-    CREATE TABLE EMPLOYEE ( 
+    CREATE TEXT TABLE EMPLOYEE ( 
 	EMPNO CHAR(6) DEFAULT '' NOT NULL , 
 	FIRSTNME CHAR(12) DEFAULT '' NOT NULL , 
 	MIDINIT CHAR(1) DEFAULT '' NOT NULL , 
@@ -27,9 +30,12 @@ private fun createEMPLOYEE() =
 	PRIMARY KEY( EMPNO ) )   
         """.trimIndent()
 
-private fun createXEMP2() = "CREATE VIEW XEMP2 AS SELECT * FROM EMPLOYEE ORDER BY WORKDEPT"
+private fun setTableTextType() =
+    """
+         SET TABLE EMPLOYEE SOURCE "employee.csv;fs=\semi;encoding=UTF-8"
+    """.trimIndent()
 
-private fun createXEMP2Index() = "CREATE INDEX XEMP2$CONVENTIONAL_INDEX_SUFFIX ON EMPLOYEE (WORKDEPT ASC)   "
+private fun createXEMP2() = "CREATE VIEW XEMP2 AS SELECT * FROM EMPLOYEE ORDER BY WORKDEPT"
 
 private fun insertRecords() =
     """
