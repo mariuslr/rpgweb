@@ -1,8 +1,7 @@
 package com.smeup.rpgweb
 
 import com.google.gson.GsonBuilder
-import junit.framework.Assert.assertEquals
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class JSonTableTest {
