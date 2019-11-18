@@ -22,6 +22,7 @@ fun main() {
         .exception(Exception::class.java) { e, ctx ->
             ctx.status(500)
             ctx.jsonResponse(e.toString())
+            e.printStackTrace()
         }
         .start(7000)
 }
