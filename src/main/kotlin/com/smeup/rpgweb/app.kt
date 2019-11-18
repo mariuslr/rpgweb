@@ -1,14 +1,13 @@
 package com.smeup.rpgweb
 
 import com.google.gson.GsonBuilder
-import com.smeup.rpgparser.execution.getProgram
+import com.smeup.rpgparser.execution.CommandLineProgram
+import com.smeup.rpgparser.execution.defaultProgramFinders
 import com.smeup.rpgparser.jvminterop.JavaSystemInterface
 import com.smeup.rpgparser.rgpinterop.RpgSystem
-import com.smeup.rpgparser.utils.StringOutputStream
 import com.smeup.rpgweb.db.dbsqlInterface
 import io.javalin.Javalin
 import io.javalin.http.Context
-import java.io.PrintStream
 
 fun main() {
     Javalin.create { config ->
@@ -25,6 +24,8 @@ fun main() {
             e.printStackTrace()
         }
         .start(7000)
+    RpgSystem.db = dbsqlInterface()
+    RpgSystem.addProgramFinders(defaultProgramFinders)
 }
 
 val helloWorld = fun(ctx: Context) {
@@ -32,23 +33,29 @@ val helloWorld = fun(ctx: Context) {
 }
 
 val rpgHandler = fun(ctx: Context) {
+    println("Running rpgHandler...")
     ctx.jsonResponse(rpgExecution(ctx.pathParam("pgmName"), ctx.extractNumberedParameters()))
+    println("...rpgHandler done!")
 }
 
 val allEmployees = fun(ctx: Context) {
+    println("Running allEmployees...")
     ctx.jsonResponse(JSonTable(rpgExecution("ALLEMP", listOf(ctx.pathParam("deptCode")))))
+    println("...allEmployees done!")
 }
 
 val employeesByDept = fun(ctx: Context) {
+    println("Running employeesByDept...")
     ctx.jsonResponse(JSonTable(rpgExecution("EMPBYDEPT", listOf(ctx.pathParam("deptCode")))))
+    println("...employeesByDept done!")
 }
 
 private fun rpgExecution(pgmName: String, parms: List<String>): List<String> {
-    val logOutputStream = StringOutputStream()
-    val javaSystemInterface = JavaSystemInterface(PrintStream(logOutputStream), RpgSystem::getProgram, databaseInterface = dbsqlInterface())
-    val pgm = getProgram("srcRPG/$pgmName", javaSystemInterface)
+    val javaSystemInterface = JavaSystemInterface(System.out, RpgSystem::getProgram, RpgSystem.db)
+    val pgm = CommandLineProgram("srcRPG/$pgmName", javaSystemInterface)
     pgm.singleCall(parms)
-    return logOutputStream.toString().lines().dropLast(1)
+    println("Call of $pgmName completed")
+    return javaSystemInterface.consoleOutput
 }
 
 fun Context.extractNumberedParameters(): List<String> =

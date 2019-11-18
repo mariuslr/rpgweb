@@ -54,10 +54,6 @@ _##_ENDROW
       "title": "First name"
     },
     {
-      "name": "First name",
-      "title": "LASTNAME"
-    },
-    {
       "name": "LASTNAME",
       "title": "Last name"
     }

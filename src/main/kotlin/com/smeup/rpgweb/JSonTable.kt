@@ -28,9 +28,14 @@ class JSonTable(rpgDisplay: List<String>) {
                 }
             }
         }
-
-        val firstRowIndex = findColumns(rpgDisplay)
-        findRows(rpgDisplay.subList(firstRowIndex, rpgDisplay.size))
+        if (rpgDisplay.isEmpty()) {
+            println("Empty display")
+        } else {
+            val firstRowIndex = findColumns(rpgDisplay)
+            if (firstRowIndex <= rpgDisplay.size) {
+                findRows(rpgDisplay.subList(firstRowIndex, rpgDisplay.size))
+            }
+        }
     }
 }
 
