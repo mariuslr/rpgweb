@@ -17,6 +17,7 @@ fun main() {
     }
         .get("/", helloWorld)
         .get("/run/:pgmName", rpgHandler)
+        .get("/employees", allEmployees)
         .get("/employees/dept/:deptCode", employeesByDept)
         .exception(Exception::class.java) { e, ctx ->
             ctx.status(500)
@@ -31,6 +32,10 @@ val helloWorld = fun(ctx: Context) {
 
 val rpgHandler = fun(ctx: Context) {
     ctx.jsonResponse(rpgExecution(ctx.pathParam("pgmName"), ctx.extractNumberedParameters()))
+}
+
+val allEmployees = fun(ctx: Context) {
+    ctx.jsonResponse(JSonTable(rpgExecution("ALLEMP", listOf(ctx.pathParam("deptCode")))))
 }
 
 val employeesByDept = fun(ctx: Context) {

@@ -10,7 +10,7 @@ class JSonTable(rpgDisplay: List<String>) {
             require(columnDefinitions.size % 2 == 0) {
                 "Wrong column definition: name and title are required for all columns"
             }
-            columns.addAll(columnDefinitions.zipWithNext().map { Column(it.first, it.second) })
+            columns.addAll(columnDefinitions.chunked(2).map { Column(it[0], it[1]) })
             return columnDefinitions.size + 1
         }
 
