@@ -16,6 +16,11 @@ To start the DB Engine:
 ./gradlew startDBEngine
 ```
 
+To stop the DB Engine:
+```
+./gradlew shutdownDBEngine
+```
+
 To populate the Sample DB: 
 ```
 ./gradlew createDB
