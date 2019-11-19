@@ -24,6 +24,18 @@
      C                   eval      msg = 'Last name'
      C     msg           dsply
       *-------------------------------------------------------------------------
+     C                   eval      msg = 'SEX'
+     C     msg           dsply
+      *-------------------------------------------------------------------------
+     C                   eval      msg = 'Sex'
+     C     msg           dsply
+      *-------------------------------------------------------------------------
+     C                   eval      msg = 'SALARY'
+     C     msg           dsply
+      *-------------------------------------------------------------------------
+     C                   eval      msg = 'Salary'
+     C     msg           dsply
+      *-------------------------------------------------------------------------
      C                   eval      msg = '_##_ROWS'
      C     msg           dsply
       *-------------------------------------------------------------------------
@@ -34,6 +46,10 @@
      C                   eval      msg = 'FIRSTNME_##_' + %trim(FIRSTNME)
      C     msg           dsply
      C                   eval      msg = 'LASTNAME_##_' +%trim(LASTNAME)
+     C     msg           dsply
+     C                   eval      msg = 'SEX_##_' +%trim(SEX)
+     C     msg           dsply
+     C                   eval      msg = 'SALARY_##_' + %CHAR(SALARY)
      C     msg           dsply
      C                   eval      msg = '_##_ENDROW'
      C     msg           dsply
