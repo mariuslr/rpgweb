@@ -7,6 +7,7 @@ import com.smeup.rpgparser.rgpinterop.DirRpgProgramFinder
 import com.smeup.rpgparser.rgpinterop.RpgSystem
 import com.smeup.rpgweb.db.dbsqlInterface
 import io.javalin.Javalin
+import io.javalin.apibuilder.ApiBuilder.*
 import io.javalin.http.Context
 import java.io.File
 
@@ -19,8 +20,14 @@ fun main() {
     }
         .get("/", helloWorld)
         .get("/run/:pgmName", rpgHandler)
-        .get("/employees", allEmployees)
-        .get("/employees/dept/:deptCode", employeesByDept)
+        .routes {
+            path("employees") {
+                get(allEmployees)
+                path("dept/:deptCode") {
+                    get(employeesByDept)
+                }
+            }
+        }
         .exception(Exception::class.java) { e, ctx ->
             ctx.status(500)
             ctx.jsonResponse(e.toString())
