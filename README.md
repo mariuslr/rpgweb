@@ -1,6 +1,16 @@
 # rpgweb
 Demo web service that exposes the results of a RPG computation executed with the RPG Interpreter
 
+To refresh the dependencies:
+```
+./gradlew build --refresh-dependencies
+```
+
+To clean the DB directory:
+```
+./gradlew cleanDB
+```
+
 To start the DB Engine:
 ```
 ./gradlew startDBEngine
@@ -14,9 +24,4 @@ To populate the Sample DB:
 To run the server:
 ```
 ./gradlew run
-```
-
-To refresh the dependencies:
-```
-./gradlew build --refresh-dependencies
 ```

@@ -42,6 +42,10 @@ task run (type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
 }
 
+task cleanDB(type: Delete) {
+    delete 'testDB'
+}
+
 task createDB (type: JavaExec) {
     main="com.smeup.rpgweb.db.CreateDB"
     classpath = sourceSets.test.runtimeClasspath

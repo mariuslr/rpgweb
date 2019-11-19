@@ -2,12 +2,15 @@ package com.smeup.rpgweb
 
 import com.google.gson.GsonBuilder
 import com.smeup.rpgparser.execution.CommandLineProgram
-import com.smeup.rpgparser.execution.defaultProgramFinders
 import com.smeup.rpgparser.jvminterop.JavaSystemInterface
+import com.smeup.rpgparser.rgpinterop.DirRpgProgramFinder
 import com.smeup.rpgparser.rgpinterop.RpgSystem
 import com.smeup.rpgweb.db.dbsqlInterface
 import io.javalin.Javalin
 import io.javalin.http.Context
+import java.io.File
+
+const val SRC_DIR = "srcRPG"
 
 fun main() {
     Javalin.create { config ->
@@ -25,7 +28,8 @@ fun main() {
         }
         .start(7000)
     RpgSystem.db = dbsqlInterface()
-    RpgSystem.addProgramFinders(defaultProgramFinders)
+    val x = File(".")
+    RpgSystem.addProgramFinders(listOf(DirRpgProgramFinder(File(SRC_DIR))))
 }
 
 val helloWorld = fun(ctx: Context) {
@@ -52,7 +56,7 @@ val employeesByDept = fun(ctx: Context) {
 
 private fun rpgExecution(pgmName: String, parms: List<String>): List<String> {
     val javaSystemInterface = JavaSystemInterface(System.out, RpgSystem::getProgram, RpgSystem.db)
-    val pgm = CommandLineProgram("srcRPG/$pgmName", javaSystemInterface)
+    val pgm = CommandLineProgram(pgmName, javaSystemInterface)
     pgm.singleCall(parms)
     println("Call of $pgmName completed")
     return javaSystemInterface.consoleOutput
