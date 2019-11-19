@@ -24,10 +24,10 @@
      C                   eval      msg = 'Last name'
      C     msg           dsply
       *-------------------------------------------------------------------------
-     C                   eval      msg = 'SEX'
+     C                   eval      msg = 'GENDER'
      C     msg           dsply
       *-------------------------------------------------------------------------
-     C                   eval      msg = 'Sex'
+     C                   eval      msg = 'Gender'
      C     msg           dsply
       *-------------------------------------------------------------------------
      C                   eval      msg = 'SALARY'
@@ -47,7 +47,7 @@
      C     msg           dsply
      C                   eval      msg = 'LASTNAME_##_' +%trim(LASTNAME)
      C     msg           dsply
-     C                   eval      msg = 'SEX_##_' +%trim(SEX)
+     C                   eval      msg = 'GENDER_##_' +%trim(SEX)
      C     msg           dsply
      C                   eval      msg = 'SALARY_##_' + %CHAR(SALARY)
      C     msg           dsply
