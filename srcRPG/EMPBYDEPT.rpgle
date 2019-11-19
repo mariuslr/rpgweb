@@ -41,8 +41,8 @@
       *-------------------------------------------------------------------------
      C     toFind        SETLL     XEMP2
      C                   IF        %FOUND
-     C                   dow       not %eof
      C                   ReadE     XEMP2
+     C                   dow       not %eof
      C                   eval      msg = 'FIRSTNME_##_' + %trim(FIRSTNME)
      C     msg           dsply
      C                   eval      msg = 'LASTNAME_##_' +%trim(LASTNAME)
@@ -53,6 +53,7 @@
      C     msg           dsply
      C                   eval      msg = '_##_ENDROW'
      C     msg           dsply
+     C                   ReadE     XEMP2
      C                   enddo
      C                   ENDIF
       * Closing resources.
