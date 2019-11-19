@@ -28,8 +28,7 @@ fun main() {
         }
         .start(7000)
     RpgSystem.db = dbsqlInterface()
-    val x = File(".")
-    RpgSystem.addProgramFinders(listOf(DirRpgProgramFinder(File(SRC_DIR))))
+    RpgSystem.addProgramFinder(DirRpgProgramFinder(File(SRC_DIR)))
 }
 
 val helloWorld = fun(ctx: Context) {
