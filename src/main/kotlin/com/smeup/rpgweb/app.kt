@@ -43,7 +43,7 @@ val rpgHandler = fun(ctx: Context) {
 
 val allEmployees = fun(ctx: Context) {
     println("Running allEmployees...")
-    ctx.jsonResponse(JSonTable(rpgExecution("ALLEMP", listOf(ctx.pathParam("deptCode")))))
+    ctx.jsonResponse(JSonTable(rpgExecution("ALLEMP", emptyList())))
     println("...allEmployees done!")
 }
 
