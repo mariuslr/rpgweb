@@ -57,6 +57,12 @@ task startDBEngine (type: JavaExec) {
     classpath = sourceSets.test.runtimeClasspath
 }
 
+task shutdownDBEngine (type: JavaExec) {
+    main="com.smeup.rpgweb.db.ShutDownDB"
+    classpath = sourceSets.test.runtimeClasspath
+}
+
+
 task fatJar(type: Jar) {
     manifest {
         attributes 'Main-Class': 'com.smeup.rpgweb.AppKt'
