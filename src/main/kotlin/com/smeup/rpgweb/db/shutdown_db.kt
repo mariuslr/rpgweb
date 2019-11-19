@@ -2,7 +2,6 @@
 
 package com.smeup.rpgweb.db
 
-import java.lang.Exception
 import java.lang.NullPointerException
 
 fun main() {
