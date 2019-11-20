@@ -3,6 +3,7 @@
      D RESULT          S              8
      C     *entry        plist
      C                   parm                    NBRPAR
+     C                   parm                    RESULT
      C                   EVAL      NBR=%DEC(NBRPAR:8:0)
      C                   IF        0=%REM(NBR:3)
      C                   EVAL      RESULT=%TRIM(RESULT) + 'FIZZ'
